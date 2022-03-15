@@ -13,14 +13,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import ec.edu.uce.modelo.jpa.Venta;
 import ec.edu.uce.modelo.jpa.Producto;
-import ec.edu.uce.modelo.jpa.CuentaHabientesVIP;
-import ec.edu.uce.repository.jpa.IProductoRepo;
 import ec.edu.uce.service.IVentaService;
 import ec.edu.uce.service.IProductoService;
 import ec.edu.uce.service.IGestorService;
-import ec.edu.uce.service.IDetalleService;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner{
@@ -28,10 +24,10 @@ public class Application implements CommandLineRunner{
 	private static final Logger LOG= LogManager.getLogger(Application.class);
 
 	@Autowired
-	private IProductoService habienteService;
+	private IProductoService productoService;
 	
 	@Autowired
-	private IVentaService cuentaService;
+	private IVentaService ventaService;
 	
 	@Autowired
 	private IGestorService gestorService; 
@@ -42,38 +38,44 @@ public class Application implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		Producto duenio=new Producto();
-		duenio.setNombre("Miguel");
-		duenio.setApellido("Valverde");
-		duenio.setCedula("3452343");
+		Producto prod=new Producto();
+		prod.setCodigoBarras("1234");
+		prod.setNombre("Quesito");
+		prod.setCategoria("Lacteos");
+		prod.setPrecio(new BigDecimal(5.50));
+		prod.setStock(40);
 		
-		Venta cuenta=new Venta();
-		cuenta.setNumero("235325");
-		cuenta.setSaldo(new BigDecimal(400.00));
-		cuenta.setTipo("corriente");
-		cuenta.setCuenta_habiente(duenio);
+		//gestorService.IngresarProductos(prod);
 		
-		//habienteService.InsertarCuentaHabienteService(duenio);
-		//cuentaService.InsertarCuentaBancariaService(cuenta);
+		//gestorService.RealizarVenta("1234", 2, "12345", "31234");
 		
 		
-		gestorService.ConsultarCuentas("3452343");
+		Producto prod1=new Producto();
+		prod1.setCodigoBarras("01234");
+		prod1.setNombre("Pan");
+		prod1.setCategoria("Panaderia");
+		prod1.setPrecio(new BigDecimal(0.50));
+		prod1.setStock(20);
 		
-		//gestorService.RetirarDinero("235325", new BigDecimal(20.00));
 		
-		gestorService.ConsultarSaldo("235325");
+		Producto prod2=new Producto();
+		prod2.setCodigoBarras("001234");
+		prod2.setNombre("Mantequilla");
+		prod2.setCategoria("Lacteos");
+		prod2.setPrecio(new BigDecimal(1.50));
+		prod2.setStock(10);
 		
-		//gestorService.RetirarDinero("235325", new BigDecimal(30.00));
+		//gestorService.IngresarProductos(prod);
 		
-		gestorService.ConsultarSaldo("235325");
+		//gestorService.RealizarVenta("1234", 2, "12345", "31234");
 		
-		//habienteService.BorrarCuentaHabienteService("171242353");
-		//cuentaService.BorrarCuentaBancariaService("124567");
+		//gestorService.IngresarProductos(prod1);
 		
-		List<CuentaHabientesVIP> cuentaHabientesVIPs=this.
-				gestorService.reporteHabienteVip(new BigDecimal(30.00));
+		gestorService.RealizarVenta("01234", 10, "12345", "123124");
 		
-		cuentaHabientesVIPs.forEach((c) -> System.out.println(c.toString()));
+		gestorService.ConsultarStock("01234");
+		
+		
 		
 	}
 
